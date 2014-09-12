@@ -33,6 +33,6 @@ SELECT
 FROM students s
 LEFT JOIN u_def_ext_students se ON se.studentsdcid = s.dcid
 JOIN schools sch ON s.schoolid = sch.school_number
-WHERE s.grade_level > -1
+WHERE s.grade_level > -3
 AND sch.school_number IN (1,2,3,6,369701)
 AND s.enroll_status = 0
