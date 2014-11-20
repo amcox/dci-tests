@@ -39,12 +39,12 @@ d <- merge(d.ps, d.e, by.x='student.id', by.y='student.id')
 d <- merge(d, d.s, by.x=c('student.id', 'subject'), by.y=c('StudentId', 'subject'))
 
 # Generate plots
-sapply(unique(d$small.school), save_star_dci_test_plot, data=d, star.cuts=star.cuts, test.name='Benchmark 2')
+sapply(unique(d$small.school), save_star_dci_test_plot, data=d, star.cuts=star.cuts, test.name='Benchmark 1')
 
 # Generate excel reports
 cut_star_band <- function(r, star.cuts) {
   cs <- subset(star.cuts, grade == r['grade'] & subject == r['subject'])['cut']
-  cut(as.numeric(r['GE']), c(-5,.5*(cs-.5) +0.1,1.25*(cs-.5) + 0.1, 99),
+  cut(as.numeric(r['GE']), c(-5, 1.25*(cs-.7) + 0.1, .5*(cs-.7) +0.1, 99),
     labels=c("bottom", "middle", "top"), right=FALSE
   )
 }
