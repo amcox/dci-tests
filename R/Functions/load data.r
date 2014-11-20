@@ -19,8 +19,14 @@ load_all_clean_eadms_data <- function() {
   rbind(ela, math, sci, soc)
 }
 
-load_star_data <- function() {
+load_star_data_plain <- function() {
 	read.csv(file="./../Data/star data, tests as rows.csv", head=TRUE, na.string=c("", " ", "  "),
+    stringsAsFactors=F
+  )
+}
+
+load_star_data_models <- function() {
+	read.csv(file="./../Data/star models.csv", head=TRUE, na.string=c("", " ", "  "),
     stringsAsFactors=F
   )
 }

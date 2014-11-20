@@ -19,18 +19,14 @@ d.e <- d.eadms %>% group_by(student.id, subject) %>% summarize(
   score=mean(score, na.rm=T)
 )
 
-# Load STAR data and take the average of all scores, since we're at the beginning of the year and can't make reliable linear models yet.
-d.star <- load_star_data()
-d.s <- d.star %>% group_by(StudentId, subject) %>% summarize(
-  GE=mean(GE, na.rm=T),
-  gap=mean(gap, na.rm=T)
-)
+# Load modeled STAR data.
+d.star <- load_star_data_models()
 d.s$subject[d.s$subject == 'reading'] <- 'ela'
 
 # Cut scores are directly from DCI conversation to set them. Using the real, not +0.5.
 star.cuts <- load_star_cut_data()
 
-# Load PS data that has been expoted using the format the same as the DCI test Excel spreadsheet for the students tab.
+# Load PS data that has been exported using the format the same as the DCI test Excel spreadsheet for the students tab.
 d.ps <- load_student_data()
 d.ps$small.school <- apply(d.ps, 1, make_small_school)
 
@@ -39,12 +35,12 @@ d <- merge(d.ps, d.e, by.x='student.id', by.y='student.id')
 d <- merge(d, d.s, by.x=c('student.id', 'subject'), by.y=c('StudentId', 'subject'))
 
 # Generate plots
-sapply(unique(d$small.school), save_star_dci_test_plot, data=d, star.cuts=star.cuts, test.name='Benchmark 1')
+sapply(unique(d$small.school), save_star_dci_test_plot, data=d, star.cuts=star.cuts, test.name='Benchmark 2')
 
 # Generate excel reports
 cut_star_band <- function(r, star.cuts) {
   cs <- subset(star.cuts, grade == r['grade'] & subject == r['subject'])['cut']
-  cut(as.numeric(r['GE']), c(-5, 1.25*(cs-.7) + 0.1, .5*(cs-.7) +0.1, 99),
+  cut(as.numeric(r['us2.modeled']), c(-5, 0.5*(cs-.5) + 0.1, 1.25*(cs-.5) + 0.1, 99),
     labels=c("bottom", "middle", "top"), right=FALSE
   )
 }

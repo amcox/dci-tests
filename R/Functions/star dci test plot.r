@@ -5,7 +5,7 @@ save_star_dci_test_plot <- function(ss, data, star.cuts, test.name) {
 }
 
 generate_star_dci_test_plot <- function(d, star.cuts, test.name, small.school.name) {
-  p <- ggplot(d, aes(x=score, y=GE))+
+  p <- ggplot(d, aes(x=score, y=us2.modeled))+
     geom_point(shape=1)+
     geom_hline(data=subset(star.cuts, grade %in% unique(d$grade)), aes(yintercept=c(1.25*(cut-.7), .5*(cut-.7))))+
     geom_vline(xintercept=c(0.5, 0.75))+
